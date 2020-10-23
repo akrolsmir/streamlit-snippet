@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import hashlib
+import base64
 
 from execbox_side import execbox_side
 
@@ -19,6 +21,12 @@ def get_data(table, id):
 
 def set_data(table, id, data):
     return requests.patch(RUN_URL + f"{table}/{id}", json=data)
+
+
+def hash_to_id(input_string):
+    # From https://stackoverflow.com/a/2510733/1222351
+    hasher = hashlib.sha1(input_string.encode())
+    return base64.urlsafe_b64encode(hasher.digest()).decode()[:8]
 
 
 # These are specific to Streamlit Snippets
@@ -58,8 +66,7 @@ with execbox_container:
     code = execbox_side(init_code, autorun=True, line_numbers=True, height=600)
 
 if share_button:
-    # TODO: Use a more concise hash (alphanumeric chars? words?)
-    id = str(hash(code))
+    id = hash_to_id(code)
     set_snippet(id, code)
     # Query params breaks for /?id=blah; maybe reserved for Static Embedded Apps?
     # Anyways, use "snippet_id" for now
