@@ -23,17 +23,8 @@ def set_data(table, id, data):
 
 # These are specific to Streamlit Snippets
 CONTENTS_KEY = "contents"
-PLACEHOLDER_CODE = """import streamlit as st
-import numpy as np
-import pandas as pd
-
-st.write("Hello there. Check this out!")
-
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['a', 'b', 'c'])
-st.line_chart(chart_data)
-"""
+with open("placeholder.py") as file:
+    PLACEHOLDER_CODE = file.read()
 
 
 def get_snippet(id):
@@ -49,20 +40,23 @@ def set_snippet(id, snippet):
     return set_data("snippets", id, data)
 
 
-# Download the code, if any
+# Side by side execbox:
+execbox_container = st.beta_container()
+
+# Share button:
+share_button = st.button("Share your work 🎈")
+
+# Download code by id (if the share button was not just clicked)
 init_code = PLACEHOLDER_CODE
 init_params = st.experimental_get_query_params()
-if "snippet_id" in init_params:
+if "snippet_id" in init_params and not share_button:
     # Note: experimental_get_query_params always returns a dict of *lists*
     id = init_params["snippet_id"][0]
     init_code = get_snippet(id)
 
+with execbox_container:
+    code = execbox_side(init_code, autorun=True, line_numbers=True, height=600)
 
-# Side by side st_execbox:
-code = execbox_side(init_code, autorun=True, line_numbers=True, height=600)
-
-# Share button:
-share_button = st.button("Share your work 🎈")
 if share_button:
     # TODO: Use a more concise hash (alphanumeric chars? words?)
     id = str(hash(code))
