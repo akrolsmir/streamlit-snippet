@@ -12,7 +12,8 @@ cx-Oracle<8.0.0
 graphviz
 keras
 matplotlib
-mysqlclient
+###### Removed mysqlclient since that requires apt-get mysql ######
+# mysqlclient
 opencv-python
 plotly
 prometheus-client
