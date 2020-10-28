@@ -8,7 +8,3 @@ for i in range(iterations - 2):
 
 st.write(f"Here are the first {len(fib)} Fibonacci numbers!")
 st.area_chart(fib)
-
-ratios = np.array(fib[2:]) / np.array(fib[1:-1])
-st.write("Their ratios approach the Golden Ratio:")
-st.line_chart(ratios)
