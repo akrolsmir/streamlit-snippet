@@ -1,3 +1,31 @@
 streamlit
 streamlit_ace
 requests
+
+###### Copied from Streamlit's test-requirements.txt ######
+# Packages used to test things users may do with Streamlit.
+bokeh
+cffi
+chart-studio
+# 8.0.0 causes test_sqlalchemy_engine_2_oracle to fail.
+cx-Oracle<8.0.0
+graphviz
+keras
+matplotlib
+mysqlclient
+opencv-python
+plotly
+prometheus-client
+psycopg2-binary
+pydot
+pyodbc
+# Tensorflow 2.x requires scipy>=1.4.1.
+# Feel free to remove this dependency if the requirement is gone.
+scipy>=1.4.1
+seaborn
+setuptools<50.0.0
+sqlalchemy
+# The > sign will skip rc versions.
+tensorflow>2.2.0
+torch
+torchvision
