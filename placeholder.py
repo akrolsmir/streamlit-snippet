@@ -1,8 +1,14 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 
-st.write("Hello there. Check this out!")
+fib = [0, 1]
+iterations = st.slider("Iterations", 0, 20, 8)
+for i in range(iterations - 2):
+    fib.append(fib[-1] + fib[-2])
 
-chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-st.line_chart(chart_data)
+st.write(f"Here are the first {len(fib)} Fibonacci numbers!")
+st.area_chart(fib)
+
+ratios = np.array(fib[2:]) / np.array(fib[1:-1])
+st.write("Their ratios approach the Golden Ratio:")
+st.line_chart(ratios)
