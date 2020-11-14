@@ -21,6 +21,7 @@ with right_pane:
     share_button = st.button("Share your work 🎈")
 
 # Download code by snippet_id
+snippet_id = "iL_T1W23"
 init_code = load_placeholder()
 init_params = st.experimental_get_query_params()
 if "snippet_id" in init_params:
@@ -48,7 +49,10 @@ if share_button:
     # Query params breaks for /?id=blah; maybe it's reserved for Static Embedded Apps?
     # Anyways, use "snippet_id" for now
     st.experimental_set_query_params(snippet_id=snippet_id)
-    EDIT_URL = f"http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={snippet_id}"
-    PREVIEW_URL = f"https://share.streamlit.io/akrolsmir/streamlit-snippet/main/preview.py?snippet_id={snippet_id}"
-    execbox_container.write(f"Saved to {EDIT_URL} ([preview]({PREVIEW_URL}))")
     st.balloons()
+
+# For now, always show the links, since otherwise they'd disappear on S4A
+# But ideally we'd only show links after "Share" is clicked, to reduce confusion & complexity
+EDIT_URL = f"http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={snippet_id}"
+PREVIEW_URL = f"https://share.streamlit.io/akrolsmir/streamlit-snippet/main/preview.py?snippet_id={snippet_id}"
+right_pane.write(f"Last saved as {EDIT_URL} ([preview]({PREVIEW_URL}))")

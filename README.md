@@ -9,6 +9,7 @@ work, and share it with others!
 - Clean up URL via redirect? Add Notion-style title?
   - Is there a good way of getting the full URL from Streamlit?
   - Want http://snippet.streamlit.io/?s=Example-bar-chart-iI0cMzhy
+- Fix share.streamlit.io extra refreshing experimental_set_query_params?
 - List all snippets and allow people to click on them
 - Start versioning this? (Eh, probably with the migration to streamlit GH org)
 
