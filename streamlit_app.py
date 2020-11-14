@@ -3,10 +3,12 @@ import requests
 import hashlib
 import base64
 
-from execbox_side import execbox_side
+from execbox_side import execbox_side, _new_sandbox
 
+# Wait, feof makes :scissors: not work (?!)
+scissors_icon = "https://twemoji.maxcdn.com/2/72x72/2702.png"
 st.set_page_config(
-    layout="wide", page_title="Streamlit Snippets", page_icon=":scissors:"
+    layout="wide", page_title="Streamlit Snippets", page_icon=scissors_icon
 )
 
 RUN_URL = "https://firestore.googleapis.com/v1/projects/plain-twig/databases/(default)/documents/"
@@ -29,7 +31,7 @@ def hash_to_id(input_string):
 
 # These are specific to Streamlit Snippets
 CONTENTS_KEY = "contents"
-with open("placeholder.py") as file:
+with open("placeholder.py", encoding="utf-8") as file:
     PLACEHOLDER_CODE = file.read()
 
 
@@ -46,11 +48,16 @@ def set_snippet(id, snippet):
     return set_data("snippets", id, data)
 
 
-# Side by side execbox:
-execbox_container = st.beta_container()
+left_pane, right_pane = st.beta_columns(2)
 
-# Share button:
-share_button = st.button("Share your work 🎈")
+with right_pane:
+    st.subheader("Code editor")
+
+    # Side by side execbox:
+    execbox_container = st.beta_container()
+
+    # Share button:
+    share_button = st.button("Share your work 🎈")
 
 # Download code by id (if the share button was not just clicked)
 init_code = PLACEHOLDER_CODE
@@ -62,6 +69,17 @@ if "snippet_id" in init_params and not share_button:
 
 with execbox_container:
     code = execbox_side(init_code, autorun=True, line_numbers=True, height=600)
+
+with left_pane:
+    try:
+        # TODO: Allow people to set their own local_scope (so two execboxes call share scopes!). For
+        # this we'll likely need to use session state, though.
+        local_scope = _new_sandbox()
+        # TODO: Add a new container and a `with` block here!
+        exec(code, local_scope)
+    except Exception as e:
+        st.exception(e)
+
 
 if share_button:
     id = hash_to_id(code)

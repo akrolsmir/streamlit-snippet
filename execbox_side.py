@@ -58,14 +58,10 @@ def execbox_side(
         show_gutter=line_numbers,
         key=key,
     )
-
-    left_pane, right_pane = st.beta_columns(2)
-
     # TODO: Find some way to enter small text so we can show a label above the editor, just like
     # Streamlit's normal components.
     # TODO: Make this collapsible.
-    with right_pane:
-        content = st_ace(**kwargs)
+    content = st_ace(**kwargs)
 
     # TODO: Change AceEditor (or use our own editor frontend) so we don't rerun the script on every
     # keystroke when autorun is False.
@@ -74,18 +70,6 @@ def execbox_side(
     else:
         autokey = hash((body, button_label, autorun, height, line_numbers, key))
         run = st.button(button_label, key=autokey)
-
-    if run:
-        # TODO: Allow people to set their own local_scope (so two execboxes call share scopes!). For
-        # this we'll likely need to use session state, though.
-        local_scope = _new_sandbox()
-
-        with left_pane:
-            try:
-                # TODO: Add a new container and a `with` block here!
-                exec(content, local_scope)
-            except Exception as e:
-                st.exception(e)
 
     return content
 

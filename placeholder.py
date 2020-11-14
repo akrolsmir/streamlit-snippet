@@ -1,10 +1,12 @@
 import streamlit as st
-import numpy as np
 
-fib = [0, 1]
-iterations = st.slider("Iterations", 0, 20, 8)
-for i in range(iterations - 2):
-    fib.append(fib[-1] + fib[-2])
+st.header("Streamlit Snippets")
+st.write(
+    """Snippets let you quickly try out and share bits of Streamlit code!
 
-st.write(f"Here are the first {len(fib)} Fibonacci numbers!")
-st.area_chart(fib)
+1. Write your own snippet 👉
+2. Preview the result (right here!)
+3. Click "Share your work" to get a shareable URL 🎉
+"""
+)
+
