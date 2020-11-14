@@ -48,7 +48,7 @@ if share_button:
     # Query params breaks for /?id=blah; maybe it's reserved for Static Embedded Apps?
     # Anyways, use "snippet_id" for now
     st.experimental_set_query_params(snippet_id=snippet_id)
-    execbox_container.write(
-        f"Saved to http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={snippet_id}"
-    )
+    EDIT_URL = f"http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={snippet_id}"
+    PREVIEW_URL = f"https://share.streamlit.io/akrolsmir/streamlit-snippet/main/preview.py?snippet_id={snippet_id}"
+    execbox_container.write(f"Saved to {EDIT_URL} ([preview]({PREVIEW_URL}))")
     st.balloons()

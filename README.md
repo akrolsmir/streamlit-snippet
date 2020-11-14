@@ -29,3 +29,5 @@ work, and share it with others!
   - Saw: Always reloads to initial page
   - Solution: Always call get_snippet() if snippet_id is present,
     even if "Share" was just clicked. @st.cache to save network calls.
+    - Problem: the next widget change or keystroke gets eaten, and "share"
+      disappears
