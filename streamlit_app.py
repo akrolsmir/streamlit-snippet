@@ -23,7 +23,7 @@ with right_pane:
 # Download code by id (if the share button was not just clicked)
 init_code = load_placeholder()
 init_params = st.experimental_get_query_params()
-if "snippet_id" in init_params and not share_button:
+if "snippet_id" in init_params:
     # Note: experimental_get_query_params always returns a dict of *lists*
     id = init_params["snippet_id"][0]
     init_code = get_snippet(id)
@@ -48,7 +48,7 @@ if share_button:
     # Query params breaks for /?id=blah; maybe reserved for Static Embedded Apps?
     # Anyways, use "snippet_id" for now
     st.experimental_set_query_params(snippet_id=id)
-    st.write(
+    execbox_container.write(
         f"Saved to http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={id}"
     )
     st.balloons()

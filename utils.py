@@ -33,6 +33,7 @@ def load_placeholder():
 CONTENTS_KEY = "contents"
 
 
+@st.cache
 def get_snippet(id):
     try:
         return get_data("snippets", id)["fields"][CONTENTS_KEY]["stringValue"]
