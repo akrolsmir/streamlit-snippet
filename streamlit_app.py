@@ -5,10 +5,8 @@ import base64
 
 from execbox_side import execbox_side
 
-# TODO: the zero width joiner feof thing is really annoying here
-scissors_emoji = "https://twemoji.maxcdn.com/2/72x72/2702.png"
-st.beta_set_page_config(
-    layout="wide", page_title="Streamlit Snippets", page_icon=scissors_emoji
+st.set_page_config(
+    layout="wide", page_title="Streamlit Snippets", page_icon=":scissors:"
 )
 
 RUN_URL = "https://firestore.googleapis.com/v1/projects/plain-twig/databases/(default)/documents/"
@@ -48,17 +46,6 @@ def set_snippet(id, snippet):
     return set_data("snippets", id, data)
 
 
-# TODO: Split out utils
-# TODO: Debug the thing rerunning/reballoonsing.
-# Maybe the button triggers execbox to refresh and pull in the placeholder code?
-# Or maybe the share_button logic is just f***ed
-# But why is it just for share, not for local?
-# ~Yeah, using a widget and then editing execbox triggers a refresh
-# ~Check whether this works in Execbox
-
-# TODO: Shareable link without code
-# TODO: install devdependencies like bokeh
-
 # Side by side execbox:
 execbox_container = st.beta_container()
 
@@ -82,12 +69,7 @@ if share_button:
     # Query params breaks for /?id=blah; maybe reserved for Static Embedded Apps?
     # Anyways, use "snippet_id" for now
     st.experimental_set_query_params(snippet_id=id)
-    # TODO: Is there a good way of getting the full URL from Streamlit?
-    # TODO: Clean up URL via redirect? Add Notion-style title?
-    # Want http;//snippet.streamlit.io/?s=Example-bar-chart-iI0cMzhy
     st.write(
         f"Saved to http://share.streamlit.io/akrolsmir/streamlit-snippet/main?snippet_id={id}"
     )
     st.balloons()
-
-# Next TODO: List all snippets and allow people to click on them
