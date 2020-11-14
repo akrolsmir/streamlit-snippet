@@ -1,52 +1,13 @@
 import streamlit as st
-import requests
-import hashlib
-import base64
 
 from execbox_side import execbox_side, _new_sandbox
+from utils import hash_to_id, get_snippet, set_snippet, load_placeholder
 
 # Wait, feof makes :scissors: not work (?!)
 scissors_icon = "https://twemoji.maxcdn.com/2/72x72/2702.png"
 st.set_page_config(
     layout="wide", page_title="Streamlit Snippets", page_icon=scissors_icon
 )
-
-RUN_URL = "https://firestore.googleapis.com/v1/projects/plain-twig/databases/(default)/documents/"
-
-# These could be generalized to other apps using Firestore
-def get_data(table, id):
-    r = requests.get(RUN_URL + f"{table}/{id}")
-    return r.json()
-
-
-def set_data(table, id, data):
-    return requests.patch(RUN_URL + f"{table}/{id}", json=data)
-
-
-def hash_to_id(input_string):
-    # From https://stackoverflow.com/a/2510733/1222351
-    hasher = hashlib.sha1(input_string.encode())
-    return base64.urlsafe_b64encode(hasher.digest()).decode()[:8]
-
-
-# These are specific to Streamlit Snippets
-CONTENTS_KEY = "contents"
-with open("placeholder.py", encoding="utf-8") as file:
-    PLACEHOLDER_CODE = file.read()
-
-
-def get_snippet(id):
-    try:
-        return get_data("snippets", id)["fields"][CONTENTS_KEY]["stringValue"]
-    except Exception as e:
-        st.exception(e)
-        return PLACEHOLDER_CODE
-
-
-def set_snippet(id, snippet):
-    data = {"fields": {CONTENTS_KEY: {"stringValue": snippet}}}
-    return set_data("snippets", id, data)
-
 
 left_pane, right_pane = st.beta_columns(2)
 
@@ -60,7 +21,7 @@ with right_pane:
     share_button = st.button("Share your work 🎈")
 
 # Download code by id (if the share button was not just clicked)
-init_code = PLACEHOLDER_CODE
+init_code = load_placeholder()
 init_params = st.experimental_get_query_params()
 if "snippet_id" in init_params and not share_button:
     # Note: experimental_get_query_params always returns a dict of *lists*
