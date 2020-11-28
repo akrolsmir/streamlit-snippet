@@ -1,4 +1,4 @@
-# About
+# About [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/akrolsmir/streamlit-snippet/main)
 
 Hey! Use Streamlit Snippets to try out simple scripts in your browser, save your
 work, and share it with others!
