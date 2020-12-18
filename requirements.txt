@@ -28,5 +28,6 @@ setuptools<50.0.0
 sqlalchemy
 # The > sign will skip rc versions.
 tensorflow>2.2.0
-torch
-torchvision
+# Torch apparently takes forever, let's not require it
+# torch
+# torchvision
